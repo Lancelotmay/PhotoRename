@@ -41,6 +41,7 @@ def FileNameGen (fname):
         date = str(tags['EXIF DateTimeOriginal'])
     except KeyError:
         return 'No EXIF info'
+# Date format 
     date = date.replace(":","")
     date = date.replace(" ","_")
     try:
@@ -48,18 +49,22 @@ def FileNameGen (fname):
     except KeyError:
         model = str('unknown')
     model = model.replace(" ","")
+    model = model.replace("/","")
+    model = model.replace("\\","")
     MD5_16_str = MD5_16_calc(f)
     NewName = date + '_'+model+'_'+MD5_16_str
     return NewName
 
 
 ## main function
-crc32hasher = FileHash('crc32')
+# configurations
 CurrentDir = '.'
+# Please change to the type you would like to have
 PhotoFileType = set(['jpg','jpeg','arw'])
+# name and patch of log file. Please change as needed
+LogFileName = 'log.txt'
 
 #open log file
-LogFileName = 'log.txt'
 LogFile = open(LogFileName, 'at', encoding='utf-8')
 LogFile.write('start changing name ')
 LogFile.writelines(str(datetime.today()) + '\n')
