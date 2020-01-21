@@ -27,5 +27,5 @@ def ToFile(txt, file):
         fout.write(ori_image_data)
         fout.close()
 
-ToBase64("20191004_074332_NokiaX7_ss.jpg",'20191004_074332_NokiaX7_ss.html')  # 文件转换为base64
+ToBase64("20191003_134359_NokiaX7_ss.jpg",'20191003_134359_NokiaX7_ss.html')  # 文件转换为base64
 #ToFile("./desk_base64.txt",'desk_cp_by_base64.jpg')  # base64编码转换为二进制文件
