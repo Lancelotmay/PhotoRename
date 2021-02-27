@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os, exifread
+import sys
 from datetime import datetime
 from filehash import FileHash
 
@@ -58,11 +59,12 @@ def FileNameGen (fname):
 
 ## main function
 # configurations
-CurrentDir = '.'
+#CurrentDir = '.'
+CurrentDir =sys.argv[1]
 # Please change to the type you would like to have
 PhotoFileType = set(['jpg','jpeg','arw'])
 # name and patch of log file. Please change as needed
-LogFileName = 'log.txt'
+LogFileName = CurrentDir + 'log.txt'
 
 #open log file
 LogFile = open(LogFileName, 'at', encoding='utf-8')
@@ -71,21 +73,21 @@ LogFile.writelines(str(datetime.today()) + '\n')
 
 for root, dirs, files in os.walk(CurrentDir, topdown=False):
     for name in files:
-      fname = (os.path.join(root, name))
-      fext = name.split('.')[-1].lower()
-      if fext in PhotoFileType:
-          f = open(fname, 'rb')
-          NameGen= FileNameGen (f)
-          NameFull = NameGen + '.'+fext
-          NewName = (os.path.join(root, NameFull))
-          f.close()
-          if NameGen == 'No EXIF info':
-              LogFile.writelines("ERROR " + fname + ' : ' + NameGen + '\n')
-          elif os.path.isfile(NewName):
-              LogFile.writelines("ERROR " + fname +" to " + NewName +':  file exist'  + '\n')
-          else:
-              os.rename(f.name,NewName)
-              LogFile.writelines("rename " + fname +" to " + NewName + '\n')
+        fname = (os.path.join(root, name))
+        fext = name.split('.')[-1].lower()
+        if fext in PhotoFileType:
+            f = open(fname, 'rb')
+            NameGen= FileNameGen (f)
+            NameFull = NameGen + '.'+fext
+            NewName = (os.path.join(root, NameFull))
+            f.close()
+            if NameGen == 'No EXIF info':
+                LogFile.writelines("ERROR " + fname + ' : ' + NameGen + '\n')
+            elif os.path.isfile(NewName):
+                LogFile.writelines("ERROR " + fname +" to " + NewName +':  file exist'  + '\n')
+            else:
+                os.rename(f.name,NewName)
+                LogFile.writelines("rename " + fname +" to " + NewName + '\n')
           
               
 
